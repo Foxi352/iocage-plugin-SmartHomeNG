@@ -19,6 +19,8 @@ echo 'me:\' >> /home/smarthome/.login_conf
 echo '    :lang=en_US.UTF-8:' >> /home/smarthome/.login_conf
 
 # Configure Database
+sysrc mysql_enable=yes
+service mysql-server start
 openssl rand -base64 15 > /root/dbpassword
 USER="smarthome"
 DB="smarthome"
@@ -70,19 +72,19 @@ cd /usr/local
 git clone https://github.com/knxd/knxd.git
 cd knxd
 ./bootstrap.sh
-#./configure --disable-systemd --disable-usb CPPFLAGS=-I/usr/local/include/ LDFLAGS=-L/usr/local/lib
-#gmake
+./configure --disable-systemd --disable-usb CPPFLAGS=-I/usr/local/include/ LDFLAGS=-L/usr/local/lib
+gmake
+gmake install
 
 # Enable services
 sysrc sshd_enable=yes
 sysrc php_fpm_enable=yes
-sysrc mysql_enable=yes
 sysrc lighttpd_enable=yes
 sysrc smarthomeng_enable=yes
 
 # Start services
 service sshd start 2>/dev/null
-service mysql-server start 2>/dev/null
+service mysql-server restart
 service php-fpm start 2>/dev/null
 service smarthomeng start 2>/dev/null
 service lighttpd start 2>/dev/null
