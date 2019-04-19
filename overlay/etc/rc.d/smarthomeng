@@ -1,0 +1,40 @@
+#!/bin/sh
+
+# $FreeBSD$
+#
+# PROVIDE: smarthomeng
+# REQUIRE: LOGIN
+# KEYWORD: shutdown
+#
+# Add these lines to /etc/rc.conf.local or /etc/rc.conf
+# to enable this service:
+#
+# doormand_enable (bool):	Set to NO by default.
+#				Set it to YES to enable doormand.
+
+. /etc/rc.subr
+
+name=smarthomeng
+rcvar=smarthomeng_enable
+
+start_cmd="${name}_start"
+stop_cmd="${name}_stop"
+
+load_rc_config $name
+
+: ${smarthomeng_enable:="NO"}
+
+command=%%PREFIX%%/usr/local/${name}
+
+smarthomeng_start()
+{
+	echo "Starting SmartHomeNG"
+}
+
+smarthomeng_sop()
+{
+	echo "Stopping SmartHomeNG"
+}
+
+
+run_rc_command "$1"
