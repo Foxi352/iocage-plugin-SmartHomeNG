@@ -19,7 +19,7 @@ echo 'me:\' >> /home/smarthome/.login_conf
 echo '    :lang=en_US.UTF-8:' >> /home/smarthome/.login_conf
 
 # Configure Database
-cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1 > /root/dbpassword
+openssl rand -base64 15 > /root/dbpassword
 USER="smarthome"
 DB="smarthome"
 PASS=`cat /root/dbpassword`
@@ -53,7 +53,7 @@ sed -i '' 's/.*cgi.fix_pathinfo=.*/cgi.fix_pathinfo=0/'  /usr/local/etc/php.ini
 
 # Configure lighthttpd
 sed -i '' 's/.*server.use-ipv6 =.*/server.use-ipv6 = "disable"/'  /usr/local/etc/lighttpd/lighttpd.conf
-sed -i '' 's/.*include "conf.d/fastcgi.conf".*/include "conf.d\/fastcgi.conf"/'  /usr/local/etc/lighttpd/modules.conf
+sed -i '' 's/.*include \"conf.d\/fastcgi.conf\".*/include \"conf.d\/fastcgi.conf\"/'  /usr/local/etc/lighttpd/modules.conf
 cat <<EOF >> /usr/local/etc/lighttpd/conf.d/fastcgi.conf
 fastcgi.server += ( ".php" =>
         ((
@@ -82,7 +82,7 @@ sysrc smarthomeng_enable=yes
 
 # Start services
 service sshd start 2>/dev/null
-service php-fpm start 2>/dev/null
 service mysql-server start 2>/dev/null
-service lighttpd start 2>/dev/null
+service php-fpm start 2>/dev/null
 service smarthomeng start 2>/dev/null
+service lighttpd start 2>/dev/null
