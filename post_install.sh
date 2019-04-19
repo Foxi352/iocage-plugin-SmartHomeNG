@@ -28,6 +28,7 @@ UPDATE mysql.user SET Password=PASSWORD('${PASS}') WHERE User='root';
 DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
 DELETE FROM mysql.user WHERE User='';
 DELETE FROM mysql.db WHERE Db='test' OR Db='test_%';
+DROP DATABASE test;
 
 CREATE USER '${USER}'@'localhost' IDENTIFIED BY '${PASS}';
 CREATE DATABASE ${DB};
@@ -43,6 +44,24 @@ chmod 775 /usr/local/www/data
 
 # Configure PHP
 cp /usr/local/etc/php.ini-production /usr/local/etc/php.ini
+sed -i '' 's/.*listen =.*/listen = \/var\/run\/php-fpm.sock/'  /usr/local/etc/php-fpm.d/www.conf
+sed -i '' 's/.*listen.owner =.*/listen.owner = www/'  /usr/local/etc/php-fpm.d/www.conf
+sed -i '' 's/.*listen.group =.*/listen.group = www/'  /usr/local/etc/php-fpm.d/www.conf
+sed -i '' 's/.*listen.mode =.*/listen.mode = 0660/'  /usr/local/etc/php-fpm.d/www.conf
+sed -i '' 's/.*cgi.fix_pathinfo=.*/cgi.fix_pathinfo=0/'  /usr/local/etc/php.ini
+
+
+# Configure lighthttpd
+sed -i '' 's/.*server.use-ipv6 =.*/server.use-ipv6 = "disable"/'  /usr/local/etc/lighttpd/lighttpd.conf
+cat <<EOF >> /usr/local/etc/lighttpd/conf.d/fastcgi.conf
+fastcgi.server += ( ".php" =>
+        ((
+                "socket" => "/var/run/php-fpm.sock",
+                "broken-scriptfilename" => "enable"
+        ))
+)
+EOF
+
 
 # Install KNXD
 mkdir /usr/local/knxd
@@ -50,17 +69,19 @@ cd /usr/local
 git clone https://github.com/knxd/knxd.git
 cd knxd
 ./bootstrap.sh
-./configure --disable-systemd --disable-usb CPPFLAGS=-I/usr/local/include/ LDFLAGS=-L/usr/local/lib
-gmake
+#./configure --disable-systemd --disable-usb CPPFLAGS=-I/usr/local/include/ LDFLAGS=-L/usr/local/lib
+#gmake
 
 # Enable services
 sysrc sshd_enable=yes
 sysrc php_fpm_enable=yes
 sysrc mysql_enable=yes
 sysrc lighttpd_enable=yes
+sysrm smarthomeng_enable=yes
 
 # Start services
 service sshd start 2>/dev/null
 service php-fpm start 2>/dev/null
 service mysql-server start 2>/dev/null
 service lighttpd start 2>/dev/null
+service smarthomeng start 2>/dev/null

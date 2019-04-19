@@ -31,7 +31,7 @@ smarthomeng_start()
 	echo "Starting SmartHomeNG"
 }
 
-smarthomeng_sop()
+smarthomeng_stop()
 {
 	echo "Stopping SmartHomeNG"
 }
