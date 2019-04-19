@@ -16,25 +16,29 @@
 
 name=smarthomeng
 rcvar=smarthomeng_enable
+pidfile="/usr/local/smarthome/var/run/smarthome.pid"
 
 start_cmd="${name}_start"
 stop_cmd="${name}_stop"
 
-load_rc_config $name
-
-: ${smarthomeng_enable:="NO"}
-
-command=%%PREFIX%%/usr/local/${name}
+smarthomeng_user="smarthome"
 
 smarthomeng_start()
 {
-	echo "Starting SmartHomeNG"
+	/usr/local/bin/python3 /usr/local/smarthome/bin/smarthome.py
 }
 
 smarthomeng_stop()
 {
-	echo "Stopping SmartHomeNG"
+        if [ -e "${pidfile}" ]; then
+                kill -s TERM `cat ${pidfile}`
+        else
+                echo "${name} is not running"
+        fi
 }
 
+
+load_rc_config $name
+: ${smarthomeng_enable:=no}
 
 run_rc_command "$1"
