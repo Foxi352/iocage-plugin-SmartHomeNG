@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Create user
-pw useradd -n smarthome -c "SmartHomeNG user" -s /usr/local/bin/bash -m
+pw useradd -n smarthome -c "SmartHomeNG user" -s /usr/sbin/nologin -m
 
 # Install missing python packages and upgrade existing
 ln -s /usr/local/bin/pip-3.6 /usr/local/bin/pip
@@ -53,6 +53,7 @@ sed -i '' 's/.*cgi.fix_pathinfo=.*/cgi.fix_pathinfo=0/'  /usr/local/etc/php.ini
 
 # Configure lighthttpd
 sed -i '' 's/.*server.use-ipv6 =.*/server.use-ipv6 = "disable"/'  /usr/local/etc/lighttpd/lighttpd.conf
+sed -i '' 's/.*include "conf.d/fastcgi.conf".*/include "conf.d\/fastcgi.conf"/'  /usr/local/etc/lighttpd/modules.conf
 cat <<EOF >> /usr/local/etc/lighttpd/conf.d/fastcgi.conf
 fastcgi.server += ( ".php" =>
         ((
@@ -77,7 +78,7 @@ sysrc sshd_enable=yes
 sysrc php_fpm_enable=yes
 sysrc mysql_enable=yes
 sysrc lighttpd_enable=yes
-sysrm smarthomeng_enable=yes
+sysrc smarthomeng_enable=yes
 
 # Start services
 service sshd start 2>/dev/null
