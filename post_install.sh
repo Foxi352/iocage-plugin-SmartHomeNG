@@ -80,6 +80,10 @@ gmake install
 chmod 555 /etc/rc.d/smarthomeng
 chmod 555 /etc/rc.d/knxd
 
+# Remove fortune tips
+sed -i '' '/\/usr\/bin\/fortune/d' ~smarthome/.login
+sed -i '' '/\/usr\/bin\/fortune/d' ~smarthome/.profile
+
 # Enable services
 sysrc sshd_enable=yes
 sysrc php_fpm_enable=yes
