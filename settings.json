@@ -1,0 +1,73 @@
+{
+	"servicerestart":"service smarthomeng restart",
+	"serviceget": "/usr/local/bin/knxdget",
+	"serviceset": "/usr/local/bin/knxdset",
+	"options": {
+		"adduser": {
+			"type": "add",
+			"name": "Add User",
+			"description": "Add new user",
+			"requiredargs": {
+				"username": {
+					"type": "string",
+					"description": "Client Username"
+				},
+				"password": {
+					"type": "password",
+					"description": "Client Password"
+				},
+				"fullname": {
+					"type": "string",
+					"description": "Client Full Name"
+				}
+			},
+			"optionalargs": {
+				"adminuser": { 
+					"type": "bool",
+					"description": "Can this user administrate ?"
+				}
+			}
+		},
+		"knxd": {
+			"type": "bool",
+			"name": "knxd enabled",
+			"description": "Enable and use knxd service",
+			"default": false,
+			"requirerestart": true			
+		},	
+		"port": {
+			"type": "int",
+			"name": "knxd tcp port",
+			"description": "Port for incoming knxd connections",
+			"range": "1024-32000",
+			"default": "6720",
+			"requirerestart": true
+		},
+		"onewire": {
+			"type": "bool",
+			"name": "1-wire enabled",
+			"description": "Enable and use onewire service",
+			"default": false,
+			"requirerestart": true
+			
+		},	
+		"ssloption": {
+			"type": "combo",
+			"name": "SSL Options",
+			"description": "SSL Connection Options",
+			"requirerestart": true,
+			"default": "tlsallow",
+			"options": {
+					"tlsrequire": "Require TLS",
+					"tlsallow": "Allow TLS",
+					"tlsdisable": "Disable TLS"
+			}
+		},
+		"deluser": {
+			"type": "delete",
+			"name": "Delete User",
+			"description": "Remove a user"
+		}
+
+	}
+}
