@@ -9,7 +9,7 @@
 # Add these lines to /etc/rc.conf.local or /etc/rc.conf
 # to enable this service:
 #
-# doormand_enable (bool):	Set to NO by default.
+# smarthomeng_enable (bool):	Set to NO by default.
 #				Set it to YES to enable doormand.
 
 . /etc/rc.subr
