@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Create user
-pw useradd -n smarthome -c "SmartHomeNG user" -s /usr/sbin/nologin -m
+pw useradd -n smarthome -c "SmartHomeNG user" -s /bin/csh -m
 
 # Install missing python packages and upgrade existing
 ln -s /usr/local/bin/pip-3.6 /usr/local/bin/pip
