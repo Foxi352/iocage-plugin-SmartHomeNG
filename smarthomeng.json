@@ -1,0 +1,37 @@
+{
+  "name": "smarthomeng",      
+  "plugin_schema": "2",                                                       
+  "release": "11.2-RELEASE",
+  "artifact": "https://github.com/Foxi352/iocage-plugin-SmartHomeNG.git",
+  "properties": { 
+    "allow_raw_sockets":"1",
+    "boot":"on"
+      },
+  "pkgs": [
+    "git",
+    "python3",
+    "py36-pip",
+    "mariadb103-server-10.3.13",
+    "lighttpd",
+    "php73",
+    "php73-mysqli",
+    "php73-ctype-7.3.4_2",
+    "php73-json-7.3.4_2",
+    "php73-hash-7.3.4_2",
+    "php73-mbstring-7.3.4_2",
+    "libtool",
+    "autoconf",
+    "automake"
+      ],
+  "packagesite": "http://pkg.FreeBSD.org/FreeBSD:11:amd64/quarterly",
+  "fingerprints": {
+	  "plugin-default": [
+		  {
+		  "function": "sha256",
+		  "fingerprint": "b0170035af3acc5f3f3ae1859dc717101b4e6c1d0a794ad554928ca0cbb2f438"
+	      }
+	    ]
+    },
+    "official": false
+}
+
