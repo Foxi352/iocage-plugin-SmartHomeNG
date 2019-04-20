@@ -25,16 +25,16 @@ knxd_user="smarthome"
 
 knxd_start()
 {
-	/usr/local/bin/knxd /etc/knxd.ini
+    /usr/local/bin/knxd /etc/knxd.ini
 }
 
 knxd_stop()
 {
-        if [ -e "${pidfile}" ]; then
-                kill -s TERM `cat ${pidfile}`
-        else
-                echo "${name} is not running"
-        fi
+    if [ -e "${pidfile}" ]; then
+        kill -s TERM `cat ${pidfile}`
+    else
+        echo "${name} is not running"
+    fi
 }
 
 
