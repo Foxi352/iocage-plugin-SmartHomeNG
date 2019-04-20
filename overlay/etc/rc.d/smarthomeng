@@ -25,7 +25,7 @@ smarthomeng_user="smarthome"
 
 smarthomeng_start()
 {
-    su -m "${smarthomeng_user}" -c "/usr/local/bin/python3 /usr/local/smarthome/bin/smarthome.py"
+    su - "${smarthomeng_user}" -c "/usr/local/bin/python3 /usr/local/smarthome/bin/smarthome.py"
 }
 
 smarthomeng_stop()
