@@ -76,6 +76,10 @@ cd knxd
 gmake
 gmake install
 
+# Set correct permissions
+chmod 555 /etc/rc.d/smarthomeng
+chmod 555 /etc/rc.d/knxd
+
 # Enable services
 sysrc sshd_enable=yes
 sysrc php_fpm_enable=yes
