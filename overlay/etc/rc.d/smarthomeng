@@ -25,16 +25,16 @@ smarthomeng_user="smarthome"
 
 smarthomeng_start()
 {
-	/usr/local/bin/python3 /usr/local/smarthome/bin/smarthome.py
+    su - ${smarthomeng_user} -c "/usr/local/bin/python3 /usr/local/smarthome/bin/smarthome.py"
 }
 
 smarthomeng_stop()
 {
-        if [ -e "${pidfile}" ]; then
-                kill -s TERM `cat ${pidfile}`
-        else
-                echo "${name} is not running"
-        fi
+    if [ -e "${pidfile}" ]; then
+        kill -s TERM `cat ${pidfile}`
+    else
+        echo "${name} is not running"
+    fi
 }
 
 
