@@ -8,20 +8,21 @@
     "boot":"on"
       },
   "pkgs": [
+    "autoconf",
+    "automake",
     "git",
-    "python3",
-    "py36-pip",
-    "mariadb103-server-10.3.13",
+    "libtool",
     "lighttpd",
+    "mariadb103-server-10.3.13",
+    "owfs",
     "php73",
     "php73-mysqli",
     "php73-ctype-7.3.4_2",
     "php73-json-7.3.4_2",
     "php73-hash-7.3.4_2",
     "php73-mbstring-7.3.4_2",
-    "libtool",
-    "autoconf",
-    "automake"
+    "python3",
+    "py36-pip"
       ],
   "packagesite": "http://pkg.FreeBSD.org/FreeBSD:11:amd64/quarterly",
   "fingerprints": {
