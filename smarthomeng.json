@@ -14,6 +14,7 @@
     "libtool",
     "lighttpd",
     "mariadb103-server-10.3.13",
+    "mosquitto",
     "owfs",
     "php73",
     "php73-mysqli",
