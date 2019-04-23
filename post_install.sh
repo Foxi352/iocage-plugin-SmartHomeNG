@@ -9,10 +9,11 @@ ln -s /usr/local/bin/python3.6 /usr/local/bin/python3
 pip install --upgrade pip setuptools wheel pymysql
 
 # Install SmartHomeNG
+echo "Installing SmartHomeNG"
 mkdir /usr/local/smarthome
 cd /usr/local
-git clone https://github.com/smarthomeNG/smarthome.git
-git clone git://github.com/smarthomeNG/plugins.git smarthome/plugins
+git clone https://github.com/smarthomeNG/smarthome.git >& /root/git_clone.log
+git clone git://github.com/smarthomeNG/plugins.git smarthome/plugins >>& /root/git_clone.log
 chown -R smarthome:smarthome /usr/local/smarthome
 cd smarthome
 pip install -r requirements/base.txt
@@ -20,6 +21,7 @@ echo 'me:\' >> /home/smarthome/.login_conf
 echo '    :lang=en_US.UTF-8:' >> /home/smarthome/.login_conf
 
 # Configure Database
+echo "Configuring database"
 sysrc mysql_enable=yes
 service mysql-server start
 openssl rand -base64 15 > /root/dbpassword
@@ -40,8 +42,9 @@ FLUSH PRIVILEGES;
 EOF
 
 # Install SmartVISU
+echo "Installing SmartVISU"
 mkdir -p /usr/local/www/data
-git clone https://github.com/Martin-Gleiss/smartvisu.git /usr/local/www/data
+git clone https://github.com/Martin-Gleiss/smartvisu.git /usr/local/www/data >>& /root/git_clone.log
 chown -R www:smarthome /usr/local/www/data
 chmod 775 /usr/local/www/data
 
@@ -68,6 +71,7 @@ EOF
 
 
 # Install KNXD
+echo "Installing knxd"
 mkdir /usr/local/knxd
 cd /usr/local
 git clone https://github.com/knxd/knxd.git
