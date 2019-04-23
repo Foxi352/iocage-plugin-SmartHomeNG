@@ -1,7 +1,9 @@
 #!/bin/csh
 
-# Create user
+# Start database and create user
 echo "Preparing environment"
+sysrc mysql_enable=yes
+service mysql-server start
 pw useradd -n smarthome -c "SmartHomeNG user" -s /bin/csh -m
 
 # Install missing python packages and upgrade existing
@@ -23,8 +25,6 @@ echo '    :lang=en_US.UTF-8:' >> /home/smarthome/.login_conf
 
 # Configure Database
 echo "Configuring database"
-sysrc mysql_enable=yes
-service mysql-server start
 openssl rand -base64 15 > /root/dbpassword
 set USER="smarthome"
 set DB="smarthome"
@@ -73,7 +73,7 @@ echo "Installing knxd"
 mkdir /usr/local/knxd
 cd /usr/local
 git clone https://github.com/knxd/knxd.git
-#cd knxd
+cd knxd
 #./bootstrap.sh
 #./configure --disable-systemd --disable-usb CPPFLAGS=-I/usr/local/include/ LDFLAGS=-L/usr/local/lib
 #gmake
