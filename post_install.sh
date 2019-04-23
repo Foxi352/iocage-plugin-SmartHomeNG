@@ -26,13 +26,14 @@ echo '    :lang=en_US.UTF-8:' >> /home/smarthome/.login_conf
 # Configure Database
 echo "Configuring database"
 openssl rand -base64 15 > /root/dbpassword
-set USER="smarthome"
-set DB="smarthome"
-#set PASS=`cat /root/dbpassword`
-set PASS="smarthome"
+set db_user="smarthome"
+set db_pass="smarthome"
+set PASS=`cat /root/dbpassword`
+
+echo $SHELL >> /root/shell.log
 
 cat << EOF >> /root/install.sql 
-UPDATE mysql.user SET Password=PASSWORD('$PASS') WHERE User='root';
+UPDATE mysql.user SET Password=PASSWORD("$PASS") WHERE User='root';
 DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
 DELETE FROM mysql.user WHERE User='';
 DELETE FROM mysql.db WHERE Db='test' OR Db='test_%';
