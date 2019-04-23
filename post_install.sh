@@ -1,5 +1,3 @@
-#!/bin/csh
-
 # Start database and create user
 echo "Preparing environment"
 sysrc mysql_enable=yes
@@ -26,9 +24,9 @@ echo '    :lang=en_US.UTF-8:' >> /home/smarthome/.login_conf
 # Configure Database
 echo "Configuring database"
 openssl rand -base64 15 > /root/dbpassword
-set db_user="smarthome"
-set db_pass="smarthome"
-set PASS=`cat /root/dbpassword`
+USER="smarthome"
+DB="smarthome"
+PASS=`cat /root/dbpassword`
 
 echo $SHELL >> /root/shell.log
 
@@ -39,8 +37,8 @@ DELETE FROM mysql.user WHERE User='';
 DELETE FROM mysql.db WHERE Db='test' OR Db='test_%';
 DROP DATABASE test;
 CREATE USER '$USER'@'localhost' IDENTIFIED BY '$PASS';
-CREATE DATABASE ${DB};
-GRANT ALL PRIVILEGES ON ${DB}.* TO '$USER'@'localhost';
+CREATE DATABASE $DB;
+GRANT ALL PRIVILEGES ON $DB.* TO '$USER'@'localhost';
 FLUSH PRIVILEGES;
 EOF
 
