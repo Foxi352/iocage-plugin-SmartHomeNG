@@ -13,8 +13,8 @@ pip install --upgrade pip setuptools wheel pymysql
 echo "Installing SmartHomeNG"
 mkdir /usr/local/smarthome
 cd /usr/local
-git clone --single-branch --branch develop https://github.com/smarthomeNG/smarthome.git >& /root/git_clone.log
-git clone --single-branch --branch develop git://github.com/smarthomeNG/plugins.git smarthome/plugins >>& /root/git_clone.log
+git clone --single-branch --branch develop https://github.com/smarthomeNG/smarthome.git
+git clone --single-branch --branch develop git://github.com/smarthomeNG/plugins.git smarthome/plugins
 chown -R smarthome:smarthome /usr/local/smarthome
 cd smarthome
 pip install -r requirements/base.txt
@@ -44,7 +44,7 @@ EOF
 # Install SmartVISU
 echo "Installing SmartVISU"
 mkdir -p /usr/local/www/data
-git clone https://github.com/Martin-Gleiss/smartvisu.git /usr/local/www/data >>& /root/git_clone.log
+git clone --single-branch --branch develop https://github.com/Martin-Gleiss/smartvisu.git /usr/local/www/data
 chown -R www:smarthome /usr/local/www/data
 chmod 775 /usr/local/www/data
 
