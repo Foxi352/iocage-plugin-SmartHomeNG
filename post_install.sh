@@ -73,11 +73,11 @@ echo "Installing knxd"
 mkdir /usr/local/knxd
 cd /usr/local
 git clone https://github.com/knxd/knxd.git
-cd knxd
-./bootstrap.sh
-./configure --disable-systemd --disable-usb CPPFLAGS=-I/usr/local/include/ LDFLAGS=-L/usr/local/lib
-gmake
-gmake install
+#cd knxd
+#./bootstrap.sh
+#./configure --disable-systemd --disable-usb CPPFLAGS=-I/usr/local/include/ LDFLAGS=-L/usr/local/lib
+#gmake
+#gmake install
 
 # Set correct permissions
 chmod 555 /etc/rc.d/smarthomeng
