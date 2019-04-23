@@ -5,6 +5,7 @@ pw useradd -n smarthome -c "SmartHomeNG user" -s /bin/csh -m
 
 # Install missing python packages and upgrade existing
 ln -s /usr/local/bin/pip-3.6 /usr/local/bin/pip
+ln -s /usr/local/bin/python3.6 /usr/local/bin/python3
 pip install --upgrade pip setuptools wheel pymysql
 
 # Install SmartHomeNG
