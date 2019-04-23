@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/csh
 
 # Create user
 pw useradd -n smarthome -c "SmartHomeNG user" -s /bin/csh -m
