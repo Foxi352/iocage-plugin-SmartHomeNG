@@ -30,6 +30,19 @@ set USER="smarthome"
 set DB="smarthome"
 #set PASS=`cat /root/dbpassword`
 set PASS="smarthome"
+
+cat << EOF >> /root/install.sql 
+UPDATE mysql.user SET Password=PASSWORD('$PASS') WHERE User='root';
+DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
+DELETE FROM mysql.user WHERE User='';
+DELETE FROM mysql.db WHERE Db='test' OR Db='test_%';
+DROP DATABASE test;
+CREATE USER '$USER'@'localhost' IDENTIFIED BY '$PASS';
+CREATE DATABASE ${DB};
+GRANT ALL PRIVILEGES ON ${DB}.* TO '$USER'@'localhost';
+FLUSH PRIVILEGES;
+EOF
+
 mysql -u root << EOF
 UPDATE mysql.user SET Password=PASSWORD('$PASS') WHERE User='root';
 DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
