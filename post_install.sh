@@ -30,16 +30,17 @@ set USER="smarthome"
 set DB="smarthome"
 set PASS=`cat /root/dbpassword`
 mysql -u root << EOF
-UPDATE mysql.user SET Password=PASSWORD('${PASS}') WHERE User='root';
+UPDATE mysql.user SET Password=PASSWORD('$PASS') WHERE User='root';
 DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
 DELETE FROM mysql.user WHERE User='';
 DELETE FROM mysql.db WHERE Db='test' OR Db='test_%';
 DROP DATABASE test;
-CREATE USER '${USER}'@'localhost' IDENTIFIED BY '${PASS}';
+CREATE USER '$USER'@'localhost' IDENTIFIED BY '$PASS';
 CREATE DATABASE ${DB};
-GRANT ALL PRIVILEGES ON ${DB}.* TO '${USER}'@'localhost';
+GRANT ALL PRIVILEGES ON ${DB}.* TO '$USER'@'localhost';
 FLUSH PRIVILEGES;
 EOF
+service mysql-server restart
 
 # Install SmartVISU
 echo "Installing SmartVISU"
@@ -95,7 +96,6 @@ sysrc smarthomeng_enable=yes
 
 # Start services
 service sshd start 2>/dev/null
-service mysql-server restart
 service php-fpm start 2>/dev/null
 service smarthomeng start 2>/dev/null
 service lighttpd start 2>/dev/null
