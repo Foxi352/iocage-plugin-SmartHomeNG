@@ -1,6 +1,7 @@
 #!/bin/csh
 
 # Create user
+echo "Preparing environment"
 pw useradd -n smarthome -c "SmartHomeNG user" -s /bin/csh -m
 
 # Install missing python packages and upgrade existing
@@ -12,8 +13,8 @@ pip install --upgrade pip setuptools wheel pymysql
 echo "Installing SmartHomeNG"
 mkdir /usr/local/smarthome
 cd /usr/local
-git clone https://github.com/smarthomeNG/smarthome.git >& /root/git_clone.log
-git clone git://github.com/smarthomeNG/plugins.git smarthome/plugins >>& /root/git_clone.log
+git clone --single-branch --branch develop https://github.com/smarthomeNG/smarthome.git >& /root/git_clone.log
+git clone --single-branch --branch develop git://github.com/smarthomeNG/plugins.git smarthome/plugins >>& /root/git_clone.log
 chown -R smarthome:smarthome /usr/local/smarthome
 cd smarthome
 pip install -r requirements/base.txt
@@ -28,13 +29,12 @@ openssl rand -base64 15 > /root/dbpassword
 set USER="smarthome"
 set DB="smarthome"
 set PASS=`cat /root/dbpassword`
-mysql -u root <<-EOF
+mysql -u root << EOF
 UPDATE mysql.user SET Password=PASSWORD('${PASS}') WHERE User='root';
 DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
 DELETE FROM mysql.user WHERE User='';
 DELETE FROM mysql.db WHERE Db='test' OR Db='test_%';
 DROP DATABASE test;
-
 CREATE USER '${USER}'@'localhost' IDENTIFIED BY '${PASS}';
 CREATE DATABASE ${DB};
 GRANT ALL PRIVILEGES ON ${DB}.* TO '${USER}'@'localhost';
@@ -56,7 +56,6 @@ sed -i '' 's/.*listen.group =.*/listen.group = www/'  /usr/local/etc/php-fpm.d/w
 sed -i '' 's/.*listen.mode =.*/listen.mode = 0660/'  /usr/local/etc/php-fpm.d/www.conf
 sed -i '' 's/.*cgi.fix_pathinfo=.*/cgi.fix_pathinfo=0/'  /usr/local/etc/php.ini
 
-
 # Configure lighthttpd
 sed -i '' 's/.*server.use-ipv6 =.*/server.use-ipv6 = "disable"/'  /usr/local/etc/lighttpd/lighttpd.conf
 sed -i '' 's/.*include \"conf.d\/fastcgi.conf\".*/include \"conf.d\/fastcgi.conf\"/'  /usr/local/etc/lighttpd/modules.conf
@@ -68,7 +67,6 @@ fastcgi.server += ( ".php" =>
         ))
 )
 EOF
-
 
 # Install KNXD
 echo "Installing knxd"
